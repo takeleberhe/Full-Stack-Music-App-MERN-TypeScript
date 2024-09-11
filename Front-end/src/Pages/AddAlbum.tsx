@@ -35,14 +35,12 @@ const AddAlbum: React.FC = () => {
     formData.append("title", form.title);
     formData.append("artist", form.artist);
 
-    console.log("Dispatching addAlbumStart with formData:", formData);
     dispatch(addAlbumStart(formData));
   };
 
   useEffect(() => {
     if (addAlbumSuccess) {
-      console.log("Album added successfully, navigating to /");
-      navigate("/");
+      navigate("/albums");
       dispatch(resetAddAlbumSuccess());
     }
   }, [addAlbumSuccess, navigate, dispatch]);

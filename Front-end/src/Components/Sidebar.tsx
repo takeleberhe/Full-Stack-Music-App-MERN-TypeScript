@@ -6,6 +6,9 @@ const Sidebar: React.FC = () => {
     <div className="h-screen w-64 bg-slate-600 text-white hidden md:block">
       <ul>
         <li className="p-4 hover:bg-gray-700">
+          <Link to="/">#Home</Link>
+        </li>
+        <li className="p-4 hover:bg-gray-700">
           <Link to="/albums">#Albums</Link>
         </li>
         <li className="p-4 hover:bg-gray-700">

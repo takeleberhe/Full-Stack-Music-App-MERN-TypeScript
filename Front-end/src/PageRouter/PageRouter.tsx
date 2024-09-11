@@ -12,7 +12,8 @@ const PageRouter = () => {
   return (
     <Routes>
       {/* Song Routes */}
-      <Route path="/" element={<Albums />} />
+      <Route path="/" element={<Albums/>} />
+      <Route path="/albums" element={<Albums />} />
       <Route path="/addalbum" element={<AddAlbum />} />
       <Route path="/addsong" element={<AddSong />} />
       <Route path="/songs" element={<Songs />} />
