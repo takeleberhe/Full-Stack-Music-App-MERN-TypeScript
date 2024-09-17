@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
 interface Song {
   _id: string;
   title: string;
@@ -6,6 +7,7 @@ interface Song {
   genre: string;
   album: string;
 }
+
 interface SongState {
   songList: Song[];
   loading: boolean;
@@ -15,8 +17,9 @@ interface SongState {
   editSongSuccess: boolean;
   searchQuery: string;
 }
+
 const initialState: SongState = {
-  songList: [] as Song[],
+  songList: [],
   loading: false,
   error: null,
   addSongSuccess: false,
@@ -24,11 +27,12 @@ const initialState: SongState = {
   editSongSuccess: false,
   searchQuery: "",
 };
+
 const songSlice = createSlice({
   name: "song",
   initialState,
   reducers: {
-    //fecth reducer
+    // Fetch reducers
     getSongStart(state) {
       state.loading = true;
     },
@@ -41,12 +45,11 @@ const songSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    //add reducer
+    // Add reducers
     addSongStart(state, action: PayloadAction<FormData>) {
-      state.loading = false;
+      state.loading = true;
       state.addSongSuccess = false;
       console.log(action.payload);
-      state.addSongSuccess = false;
     },
     addSongSuccess(state, action: PayloadAction<Song>) {
       state.songList.push(action.payload);
@@ -59,7 +62,7 @@ const songSlice = createSlice({
       state.error = action.payload;
       state.addSongSuccess = false;
     },
-    //edit reducer
+    // Edit reducers
     editSongStart(
       state,
       action: PayloadAction<{ _id: string; updatedSong: Partial<Song> }>
@@ -75,35 +78,39 @@ const songSlice = createSlice({
         state.songList[index] = action.payload;
       }
       state.loading = false;
+      state.editSongSuccess = true;
+      state.error = null;
     },
     editSongFailure(state, action: PayloadAction<string>) {
-      state.error = action.payload;
       state.loading = false;
+      state.error = action.payload;
+      state.editSongSuccess = false;
     },
-    //delete reducer
+    // Delete reducers
     deleteSongStart(state, action: PayloadAction<string>) {
       state.loading = true;
-      console.log(action.payload);
       state.deleteSongSuccess = false;
+      console.log(action.payload);
     },
     deleteSongSuccess(state, action: PayloadAction<string>) {
       state.songList = state.songList.filter(
         (song) => song._id !== action.payload
       );
       state.loading = false;
-      state.error = null;
       state.deleteSongSuccess = true;
+      state.error = null;
     },
     deleteSongFailure(state, action: PayloadAction<string>) {
       state.loading = false;
       state.error = action.payload;
     },
-    // search reducer
+    // Search reducer
     setSearchQuery(state, action: PayloadAction<string>) {
       state.searchQuery = action.payload;
     },
   },
 });
+
 export const {
   getSongStart,
   getSongSuccess,
@@ -119,4 +126,5 @@ export const {
   deleteSongFailure,
   setSearchQuery,
 } = songSlice.actions;
+
 export default songSlice.reducer;

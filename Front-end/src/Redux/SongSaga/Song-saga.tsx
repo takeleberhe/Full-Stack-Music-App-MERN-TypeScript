@@ -14,7 +14,7 @@ import {
   deleteSongSuccess,
   deleteSongFailure,
 } from "../Features/songSlice";
-
+//define songs interface
 interface Song {
   _id: string;
   title: string;
@@ -22,6 +22,7 @@ interface Song {
   genre: string;
   album: string;
 }
+
 /* Fetch Music API CALL */
 function* fetchSong(): Generator<unknown, void, Song[]> {
   try {
@@ -59,14 +60,6 @@ function* addSong(
       yield put(addSongFailure("An unknown error occurred"));
     }
   }
-}
-/* define interfaces */
-interface Song {
-  _id: string;
-  title: string;
-  artist: string;
-  genre: string;
-  album: string;
 }
 function* editSong(action: ReturnType<typeof editSongStart>) {
   try {
@@ -107,6 +100,7 @@ function* deleteSong(
     yield put(editSongFailure("Payload is undefined"));
   }
 }
+
 function* SongSaga() {
   yield takeLatest(getSongStart.type, fetchSong);
   yield takeLatest(addSongStart.type, addSong);

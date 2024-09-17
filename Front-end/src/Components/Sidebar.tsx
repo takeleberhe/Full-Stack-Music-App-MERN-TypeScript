@@ -24,7 +24,10 @@ const Sidebar: React.FC = () => {
           <Link to="/artists">#Artists</Link>
         </li>
         <li className="p-4 hover:bg-gray-700">
-          <Link to="/playlists">#Genres</Link>
+          <Link to="/genres">#Genres</Link>
+        </li>
+        <li className="p-4 hover:bg-gray-700">
+          <Link to="/total">#Total</Link>
         </li>
       </ul>
     </div>

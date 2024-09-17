@@ -117,7 +117,7 @@ const SignUp: React.FC = () => {
           <h2 className="text-gray-600">
             Already have an account?{" "}
             <Link to="/login" className="text-blue-500">
-              Sing In
+              Sign In
             </Link>
           </h2>
         </div>

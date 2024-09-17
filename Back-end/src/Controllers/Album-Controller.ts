@@ -17,6 +17,7 @@ export const addAlbumController = async (req: MulterRequest, res: Response) => {
       title,
       artist,
     });
+
     // save Album to database
     await newAlbum.save();
     return res.status(201).json(newAlbum);
@@ -24,6 +25,7 @@ export const addAlbumController = async (req: MulterRequest, res: Response) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
 // getAllAlbums
 export const getAlbumController = async (req: Request, res: Response) => {
   try {
@@ -48,9 +50,9 @@ export const getAlbumDetailController = async (req: Request, res: Response) => {
     if (!album) {
       res.status(500).json({ message: "album not found" });
     }
-    res.status(201).json(album);
+    return res.status(201).json(album);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    return res.status(500).json({ error: "Internal server error" });
   }
 };
 //update Album Controller

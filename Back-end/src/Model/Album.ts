@@ -16,6 +16,5 @@ const AlbumSchema: Schema = new Schema(
   },
   { timestamps: true }
 );
-
 const Album = mongoose.model<IAlbum>("Album", AlbumSchema);
 export default Album;

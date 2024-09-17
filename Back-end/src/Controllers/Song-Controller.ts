@@ -3,7 +3,7 @@ import Song from "../Model/Songs";
 import Album from "../Model/Album";
 import { Request, Response, RequestHandler } from "express";
 import path from "path";
-
+//define the multer request interface
 interface MulterRequest extends Request {
   files?: {
     [fieldname: string]: Express.Multer.File[];
@@ -33,7 +33,6 @@ export const addSong = async (
     });
     // Save the song to the song collection
     await newSong.save();
-
     // Save the songId to the album collection
     const album = await Album.findById(albumId);
     if (!album) {
@@ -50,7 +49,7 @@ export const addSong = async (
 export const getAllSongs = async (req: Request, res: Response) => {
   let allSongs;
   try {
-    allSongs = await Song.find().populate("album");
+    allSongs = await Song.find();
   } catch (error) {
     console.log(error);
   }
@@ -64,7 +63,7 @@ export const getSongById = async (req: Request, res: Response) => {
   let id = req.params.id;
   let song;
   try {
-    song = await Song.findById(id).populate("album");
+    song = await Song.findById(id);
   } catch (error) {
     return console.log(error);
   }
@@ -78,7 +77,7 @@ export const deleteSong = async (req: Request, res: Response) => {
   const id = req.params.id;
   let song;
   try {
-    song = await Song.findByIdAndDelete(id).populate("user");
+    song = await Song.findByIdAndDelete(id);
   } catch (error) {
     return console.log(error);
   }
@@ -117,3 +116,83 @@ export const updateSong = async (
   }
   return res.status(200).json({ song });
 };
+
+// get All Artists Controller
+export const getAllArtists = async (req: Request, res: Response) => {
+  try {
+    const songs = await Song.find().populate({
+      path: "album",
+      model: "Album",
+    });
+    const artistData = songs.map((song) => {
+      const album = song.album as any;
+      const artist = album?.artist || "Unknown Artist";
+      const numberOfAlbums = album ? 1 : 0;
+      const numberOfSongs = album?.songs ? album.songs.length : 0;
+
+      return {
+        artist: artist,
+        numberOfAlbums: numberOfAlbums,
+        numberOfSongs: numberOfSongs,
+      };
+    });
+
+    if (!artistData.length) {
+      return res.status(404).json({ message: "Artists data not found" });
+    }
+    return res.status(200).json(artistData);
+  } catch (error: any) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+
+ // Total Number of Genres
+ export const getAllGenres = async (req: Request, res: Response) => {
+  try {
+    const genres = await Song.distinct("genre");
+    const totalGenres = genres.length;
+    res.json({
+      totalGenres,
+    });
+  } catch (error:any) {
+    console.log(error.mesaage);
+  }
+}
+// number of songs in each genre
+export const numberOfSongsPerGenre = async (req: Request, res: Response) => {
+  try {
+    const genres = await Song.aggregate([
+      { $group: { _id: "$genre", count: { $sum: 1 } } },
+    ]);
+    if (genres) {
+      return res.status(200).json(genres);
+    }
+    return  res.json(genres);
+  } catch (error: any) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+//ge total number of songs,artists,albums,genres
+export const totalController = async (req: Request, res: Response) => {
+  try {
+    const uniqueArtists = await Song.distinct("artist");
+    const totalArtists = uniqueArtists.length;
+
+    const totalAlbums = await Album.countDocuments();
+    const totalSongs = await Song.countDocuments();
+    const genres = await Song.distinct("genre");
+    const totalGenres = genres.length;
+
+    res.json({
+      totalArtists,
+      totalAlbums,
+      totalSongs,
+      totalGenres,
+    });
+  } catch (error: any) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
+  }
+};
+

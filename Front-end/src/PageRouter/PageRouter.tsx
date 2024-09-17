@@ -7,16 +7,22 @@ import AddAlbum from "../Pages/AddAlbum";
 import AddSong from "../Pages/AddSong";
 import Songs from "../Pages/Songs";
 import EditSong from "../Pages/EditSong";
+import Artists from "../Pages/Artists";
+import Total from "../Pages/Total";
+import Genres from "../Pages/Genres";
 
 const PageRouter = () => {
   return (
     <Routes>
       {/* Song Routes */}
-      <Route path="/" element={<Albums/>} />
+      <Route path="/" element={<Albums />} />
       <Route path="/albums" element={<Albums />} />
       <Route path="/addalbum" element={<AddAlbum />} />
       <Route path="/addsong" element={<AddSong />} />
       <Route path="/songs" element={<Songs />} />
+      <Route path="/artists" element={<Artists />} />
+      <Route path="/genres" element={<Genres />} />
+      <Route path="/total" element={<Total />} />
       <Route path="/edit/:id" element={<EditSong />} />
       <Route path="/album/:albumId" element={<AlbumDetail />} />
       {/* user Routes */}

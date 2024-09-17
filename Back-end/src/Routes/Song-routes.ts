@@ -5,6 +5,10 @@ import {
   getSongById,
   deleteSong,
   updateSong,
+  getAllArtists,
+  numberOfSongsPerGenre,
+  totalController,
+  getAllGenres
 } from "../Controllers/Song-Controller";
 import upload from "../Middlewares/uploadMiddleware";
 const songRouter = Router();
@@ -17,6 +21,10 @@ songRouter.post(
   addSong as RequestHandler
 );
 songRouter.patch("/song/:id", updateSong);
+songRouter.get("/artists", getAllArtists);
+songRouter.get("/songs/genre",numberOfSongsPerGenre);
+songRouter.get("/total",totalController);
+songRouter.get("/genres",getAllGenres);
 songRouter.delete("/song/:id", deleteSong);
 
 export default songRouter;
