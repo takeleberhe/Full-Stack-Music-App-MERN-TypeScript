@@ -20,7 +20,7 @@ import {
 import { fetchAlbumsApi } from "../API/APIs";
 import { ApiResponse, Album, FetchAlbumDetailsAction } from "../types/types.d";
 
-/* Fetch Music API CALL */
+/* Fetch Album API CALL */
 function* fetchAlbum(): Generator<unknown, void, Album[]> {
   try {
     const response: Album[] = yield call(fetchAlbumsApi);
@@ -33,7 +33,7 @@ function* fetchAlbum(): Generator<unknown, void, Album[]> {
     }
   }
 }
-/* Add Music API CALL */
+/* Add Album API CALL */
 function* addAlbum(
   action: ReturnType<typeof addAlbumStart>
 ): Generator<unknown, void, Album> {
@@ -53,7 +53,7 @@ function* addAlbum(
     }
   }
 }
-/* Update Music API CALL */
+/* Update Album API CALL */
 function* updateAlbum(
   action: ReturnType<typeof updateAlbumStart>
 ): Generator<unknown, void, Album> {
@@ -76,7 +76,7 @@ function* updateAlbum(
     yield put(updateAlbumFailure("Payload is undefined"));
   }
 }
-/* Delete Music API CALL */
+/* Delete Album API CALL */
 function* deleteAlbum(
   action: ReturnType<typeof deleteAlbumStart>
 ): Generator<unknown, void, void> {
