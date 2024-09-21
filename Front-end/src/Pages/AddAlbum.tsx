@@ -1,32 +1,28 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-  addAlbumStart,
-  resetAddAlbumSuccess,
-} from "../Redux/Features/AlbumSlice";
-import { useSelector } from "react-redux";
+import { addAlbumStart, resetAddAlbumSuccess } from "../Redux/Features/AlbumSlice";
 import { RootState } from "../Redux/store";
 
 interface AlbumForm {
   title: string;
   artist: string;
+  image: File | null;
 }
 
 const AddAlbum: React.FC = () => {
-  const addAlbumSuccess = useSelector(
-    (state: RootState) => state.album.addAlbumSuccess
-  );
-  const [form, setForm] = useState<AlbumForm>({
-    title: "",
-    artist: "",
-  });
+  const addAlbumSuccess = useSelector((state: RootState) => state.album.addAlbumSuccess);
+  const [form, setForm] = useState<AlbumForm>({ title: "", artist: "", image: null });
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
+    const { name, value, files } = e.target;
+    if (name === "image" && files) {
+      setForm({ ...form, image: files[0] });
+    } else {
+      setForm({ ...form, [name]: value });
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -34,10 +30,13 @@ const AddAlbum: React.FC = () => {
     const formData = new FormData();
     formData.append("title", form.title);
     formData.append("artist", form.artist);
-
+    if (form.image) {
+      formData.append("image", form.image);
+    }
     dispatch(addAlbumStart(formData));
   };
 
+  // Navigate to albums page and reset addAlbumSuccess state on successful album addition
   useEffect(() => {
     if (addAlbumSuccess) {
       navigate("/albums");
@@ -68,6 +67,17 @@ const AddAlbum: React.FC = () => {
             value={form.artist}
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700">Image</label>
+          <input
+            type="file"
+            name="image"
+            onChange={handleChange}
+            className="w-full px-3 py-2 border rounded"
+            accept="image/*"
             required
           />
         </div>

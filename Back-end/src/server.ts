@@ -15,17 +15,17 @@ import albumRouter from "./Routes/Album-routes";
 /*connect to database*/
 import connectDB from "./Config/Dbconnect";
 connectDB();
-
-/*Use NodeJs builtIn Middlewares here*/
-const ui = process.env.UI || "http://localhost:3000";
 const app = express();
-app.use(cors());
+//app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173'
+}));
 app.use(cookieParser());
 app.use(express.json());
 app.use(morgan("tiny"));
 
 //server static files
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 /* cutom middlewares */
 app.use("/Music/API/V1", songRouter);

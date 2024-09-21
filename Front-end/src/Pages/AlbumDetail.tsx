@@ -9,6 +9,7 @@ const AlbumDetail: React.FC = () => {
   const { albumId } = useParams<AlbumDetailParams>();
   const dispatch = useDispatch();
   const album = useSelector((state: RootState) => state.album.currentAlbum);
+  //console.log(album);
 
   useEffect(() => {
     if (albumId) {
@@ -27,13 +28,36 @@ const AlbumDetail: React.FC = () => {
             {album?.artist}
           </h1>
           <h2 className="mt-4 text-lg font-semibold">Songs</h2>
-          <ul className="mt-2">
-            {album?.songs.map((song) => (
-              <li key={song._id} className="mt-1 text-gray-700">
-                {song.name}
-              </li>
-            ))}
-          </ul>
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Title
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Genre
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Artist
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {album?.songs.map((song) => (
+                <tr key={song._id}>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    {song.name}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {song.genre}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {song.artist}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

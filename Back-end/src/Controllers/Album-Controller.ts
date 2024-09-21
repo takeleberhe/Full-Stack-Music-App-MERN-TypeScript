@@ -6,18 +6,24 @@ interface MulterRequest extends Request {
     [fieldname: string]: Express.Multer.File[];
   };
 }
+
 // Create Album Controller
 export const addAlbumController = async (req: MulterRequest, res: Response) => {
   try {
     const { title, artist } = req.body;
-    if (!title || !artist) {
+    const image = req.files?.["image"]?.[0];
+    if (!image) {
+      return res.status(400).json({ message: "image file is required" });
+    }
+    if (!title || !artist||!image) {
       res.send(" All Files are Required!!!");
     }
+    const imagePath=image.path;
     const newAlbum = new Album({
       title,
       artist,
+      image:imagePath
     });
-
     // save Album to database
     await newAlbum.save();
     return res.status(201).json(newAlbum);
@@ -35,12 +41,14 @@ export const getAlbumController = async (req: Request, res: Response) => {
       title: album.title,
       artist: album.artist,
       songCount: album.songs.length,
+      image:album.image
     }));
     return res.json(albumsWithSongCount);
   } catch (error: any) {
     return res.status(500).send(error.message);
   }
 };
+
 /* Get Album Detail Controller */
 export const getAlbumDetailController = async (req: Request, res: Response) => {
   let albumId = req.params.id;
@@ -55,6 +63,7 @@ export const getAlbumDetailController = async (req: Request, res: Response) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
+
 //update Album Controller
 export const updateAlbumController = async (
   req: MulterRequest,
@@ -76,6 +85,7 @@ export const updateAlbumController = async (
   }
   return res.status(200).json({ album });
 };
+
 //delete Album Controller
 export const deleteAlbumController = async (
   req: MulterRequest,

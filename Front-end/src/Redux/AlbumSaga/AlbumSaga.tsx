@@ -24,6 +24,7 @@ import { ApiResponse, Album, FetchAlbumDetailsAction } from "../types/types.d";
 function* fetchAlbum(): Generator<unknown, void, Album[]> {
   try {
     const response: Album[] = yield call(fetchAlbumsApi);
+    console.log(response);
     yield put(getAlbumSuccess(response));
   } catch (error: unknown) {
     if (error instanceof Error) {
@@ -33,6 +34,7 @@ function* fetchAlbum(): Generator<unknown, void, Album[]> {
     }
   }
 }
+
 /* Add Album API CALL */
 function* addAlbum(
   action: ReturnType<typeof addAlbumStart>
@@ -52,7 +54,8 @@ function* addAlbum(
       yield put(addAlbumFailure("An unknown error occurred"));
     }
   }
-}
+} 
+
 /* Update Album API CALL */
 function* updateAlbum(
   action: ReturnType<typeof updateAlbumStart>

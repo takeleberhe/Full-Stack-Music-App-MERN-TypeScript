@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AlbumState, Album } from "../types/types.d";
-/* create album interface */
+
+/* Initial state */
 const initialState: AlbumState = {
   data: [],
   loading: false,
@@ -9,6 +10,7 @@ const initialState: AlbumState = {
   currentAlbum: null,
   songs: [],
 };
+
 const albumSlice = createSlice({
   name: "album",
   initialState,
@@ -26,22 +28,20 @@ const albumSlice = createSlice({
       state.error = action.payload;
     },
     addAlbumStart(state, action: PayloadAction<FormData>) {
-      state.loading = false;
+      state.loading = true;
       state.addAlbumSuccess = false;
       console.log(action.payload);
     },
     addAlbumSuccess(state, action: PayloadAction<Album>) {
-      state.data.push(action.payload);
+      state.data = [...state.data, action.payload];
       state.loading = false;
       state.addAlbumSuccess = true;
-      state.error = null;
     },
     addAlbumFailure(state, action: PayloadAction<string>) {
       state.loading = false;
       state.error = action.payload;
       state.addAlbumSuccess = false;
     },
-    //reset reducer
     resetAddAlbumSuccess(state) {
       state.addAlbumSuccess = false;
     },
@@ -49,16 +49,13 @@ const albumSlice = createSlice({
       state.loading = true;
     },
     updateAlbumSuccess(state, action: PayloadAction<Album>) {
-      const index = state.data.findIndex(
-        (album) => album._id === action.payload._id
-      );
+      const index = state.data.findIndex(album => album._id === action.payload._id);
       if (index !== -1) {
         state.data[index] = action.payload;
       }
       state.loading = false;
       state.error = null;
     },
-
     updateAlbumFailure(state, action: PayloadAction<string>) {
       state.loading = false;
       state.error = action.payload;
@@ -67,7 +64,7 @@ const albumSlice = createSlice({
       state.loading = true;
     },
     deleteAlbumSuccess(state, action: PayloadAction<string>) {
-      state.data = state.data.filter((album) => album._id !== action.payload);
+      state.data = state.data.filter(album => album._id !== action.payload);
       state.loading = false;
       state.error = null;
     },
@@ -75,14 +72,17 @@ const albumSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    /* fetchAlbumDetailsStart(state) {
+      state.loading = true;
+    }, */
     fetchAlbumDetailsStart(state, action: PayloadAction<string>) {
       state.loading = true;
       console.log(action.payload);
     },
     fetchAlbumDetailsSuccess(state, action: PayloadAction<Album>) {
       state.currentAlbum = action.payload;
-      console.log(state.currentAlbum);
       state.loading = false;
+      state.error = null;
     },
     fetchAlbumDetailsFailure(state, action: PayloadAction<string>) {
       state.loading = false;
@@ -90,6 +90,7 @@ const albumSlice = createSlice({
     },
   },
 });
+
 export const {
   getAlbumStart,
   getAlbumSuccess,
@@ -97,6 +98,7 @@ export const {
   addAlbumStart,
   addAlbumSuccess,
   addAlbumFailure,
+  resetAddAlbumSuccess,
   updateAlbumStart,
   updateAlbumSuccess,
   updateAlbumFailure,
@@ -106,6 +108,6 @@ export const {
   fetchAlbumDetailsStart,
   fetchAlbumDetailsSuccess,
   fetchAlbumDetailsFailure,
-  resetAddAlbumSuccess,
 } = albumSlice.actions;
+
 export default albumSlice.reducer;

@@ -1,7 +1,9 @@
 //Define All Interfaces here
 export interface Song {
   _id: string;
-  name: string;
+  title: string;
+  genre:string;
+  artist:string
 }
 export interface Album {
   _id: string;
@@ -12,18 +14,22 @@ export interface Album {
   songs: Song[];
   songCount: number;
 }
-
-export interface AlbumDetailParams extends Record<string, string | undefined> {
-  albumId: string;
-}
-/* define interface for initial state */
 export interface AlbumState {
   data: Album[];
-  currentAlbum: Album | null;
   loading: boolean;
   addAlbumSuccess: boolean;
   error: string | null;
+  currentAlbum: Album | null;
   songs: Song[];
+}
+
+export interface Song {
+  _id: string;
+  name: string;
+}
+
+export interface AlbumDetailParams extends Record<string, string | undefined> {
+  albumId: string;
 }
 export interface ApiResponse<T> {
   data: T;

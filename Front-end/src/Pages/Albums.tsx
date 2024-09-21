@@ -2,35 +2,29 @@ import React, { useEffect } from "react";
 import Sidebar from "../Components/Sidebar";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../Redux/store";
-import { getAlbumStart } from "../Redux/Features/AlbumSlice";
+import { getAlbumStart, resetAddAlbumSuccess } from "../Redux/Features/AlbumSlice";
 import { useNavigate } from "react-router-dom";
-
-export interface Song {
-  _id: string;
-  name: string;
-}
-export interface Album {
-  _id: string;
-  title: string;
-  artist: string;
-  image: string;
-  currentAlbum: null;
-  songs: Song[];
-  songCount: number;
-}
 
 const Albums: React.FC = () => {
   const albums = useSelector((state: RootState) => state.album.data);
-  const searchQuery = useSelector(
-    (state: RootState) => state.songs.searchQuery
-  );
+  const searchQuery = useSelector((state: RootState) => state.songs.searchQuery);
   const loading = useSelector((state: RootState) => state.album.loading);
+  const addAlbumSuccess = useSelector((state: RootState) => state.album.addAlbumSuccess);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  //fetch album on each render
+
+  // Fetch albums on component mount
   useEffect(() => {
     dispatch(getAlbumStart());
   }, [dispatch]);
+
+  // Navigate to albums page and reset addAlbumSuccess state on successful album addition
+  useEffect(() => {
+    if (addAlbumSuccess) {
+      navigate("/albums");
+      dispatch(resetAddAlbumSuccess());
+    }
+  }, [addAlbumSuccess, navigate, dispatch]);
 
   const filteredAlbums = albums.filter(
     (album) =>
@@ -53,9 +47,20 @@ const Albums: React.FC = () => {
                 className="bg-white p-4 rounded shadow cursor-pointer"
                 onClick={() => navigate(`/album/${album._id}`)}
               >
-                <p className="text-xl">{album.title}</p>
-                <p className="text-xl">{album.artist}</p>
-                <p>{album.songCount} Songs</p>
+                {album.image ? (
+                  <img
+                    src={`http://localhost:5000/${album.image.replace(/\\/g, '/')}`} // Replace backslashes with forward slashes
+                    alt={album.title}
+                    className="w-full h-48 object-cover rounded mb-4"
+                  />
+                ) : (
+                  <div className="w-full h-48 bg-gray-200 rounded mb-4 flex items-center justify-center">
+                    <span className="text-gray-500">No Image</span>
+                  </div>
+                )}
+                <p className="text-xl font-semibold">{album.title}</p>
+                <p className="text-gray-600">{album.artist}</p>
+                <p className="text-gray-600">{album.songCount} Songs</p>
               </div>
             ))}
           </div>
