@@ -29,36 +29,6 @@ Node.js
 Express.js
 MongoDB
 TypeScript
-Folder Structure
-music-app/
-├── backend/
-│   ├── src/
-│   │   ├── Config/
-│   │   ├── Controllers/
-│   │   ├── Models/
-│   │   ├── Routes/
-│   │   ├── Middlewares/
-│   │   └── server.ts
-│   ├── uploads/
-│   ├── .env
-│   ├── .gitignore
-│   ├── package.json
-│   └── tsconfig.json
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── pageRouter/
-│   │   ├── Pages/
-│   │   ├── Redux/
-│   │   ├── App.tsx
-│   │   ├── index.css
-│   │   └── main.tsx
-│   ├── .env
-│   ├── .gitignore
-│   ├── package.json
-│   └── tsconfig.json
-├── README.md
-└── .gitignore
 
 Installation
 Run Front-end
