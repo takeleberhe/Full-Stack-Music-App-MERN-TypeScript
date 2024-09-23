@@ -3,7 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../Redux/store";
 import { useNavigate } from "react-router-dom";
 import { deleteSongStart, getSongStart } from "../Redux/Features/songSlice";
-//define type of Song
+
+// Define type of Song
 type Song = {
   _id: string;
   title: string;
@@ -11,7 +12,8 @@ type Song = {
   genre: string;
   album: string;
 };
-//define type of API Response
+
+// Define type of API Response
 type ResponseItem = {
   allSongs?: Song[];
 };
@@ -20,11 +22,12 @@ const Songs: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  //fetch updated songs from redux store
+  // Fetch updated songs from redux store
   const songs = useSelector(
     (state: RootState) => state.songs.songList as ResponseItem[]
   );
-  // fetch searchQuery from redux store for search filtering
+
+  // Fetch searchQuery from redux store for search filtering
   const searchQuery = useSelector(
     (state: RootState) => state.songs.searchQuery
   );
@@ -32,29 +35,34 @@ const Songs: React.FC = () => {
   const deleteSongSuccess = useSelector(
     (state: RootState) => state.songs.deleteSongSuccess
   );
-  //flatten nested array of objects for easy manipulation in ui
+
+  // Flatten nested array of objects for easy manipulation in UI
   const flattenedArray = songs.flatMap((item) => {
     if (Array.isArray(item.allSongs)) {
       return item.allSongs;
     }
     return [];
   });
-  //filter songs
+
+  // Filter songs
   const filteredSongs = flattenedArray.filter(
     (song) =>
       song.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       song.artist.toLowerCase().includes(searchQuery.toLowerCase()) ||
       song.genre.toLowerCase().includes(searchQuery.toLowerCase())
   );
-  // fetch songs on each render
+
+  // Fetch songs on each render
   useEffect(() => {
     dispatch(getSongStart());
   }, [dispatch]);
-  //delete song handler
+
+  // Delete song handler
   const handleDelete = async (id: string) => {
     dispatch(deleteSongStart(id));
   };
-  // to re-fetch songs on each delete success
+
+  // Re-fetch songs on each delete success
   useEffect(() => {
     if (deleteSongSuccess) {
       dispatch(getSongStart());
@@ -67,32 +75,20 @@ const Songs: React.FC = () => {
       <table className="min-w-full bg-white border border-gray-200">
         <thead className="bg-gray-200">
           <tr>
-            <th className="py-2 px-4 border-b border-gray-200 text-left text-gray-600">
-              Title
-            </th>
-            <th className="py-2 px-4 border-b border-gray-200 text-left text-gray-600">
-              Artist
-            </th>
-            <th className="py-2 px-4 border-b border-gray-200 text-left text-gray-600">
-              Genre
-            </th>
-            <th className="py-2 px-4 border-b border-gray-200 text-left text-gray-600">
-              Actions
-            </th>
+            <th className="py-2 px-4 border-b border-gray-200 text-left text-gray-600">#</th>
+            <th className="py-2 px-4 border-b border-gray-200 text-left text-gray-600">Title</th>
+            <th className="py-2 px-4 border-b border-gray-200 text-left text-gray-600">Artist</th>
+            <th className="py-2 px-4 border-b border-gray-200 text-left text-gray-600">Genre</th>
+            <th className="py-2 px-4 border-b border-gray-200 text-left text-gray-600">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {filteredSongs?.map((song) => (
+          {filteredSongs?.map((song, index) => (
             <tr key={song._id} className="even:bg-gray-50">
-              <td className="py-2 px-4 border-b border-gray-200">
-                {song.title}
-              </td>
-              <td className="py-2 px-4 border-b border-gray-200">
-                {song.artist}
-              </td>
-              <td className="py-2 px-4 border-b border-gray-200">
-                {song.genre}
-              </td>
+              <td className="py-2 px-4 border-b border-gray-200">{index + 1}</td>
+              <td className="py-2 px-4 border-b border-gray-200">{song.title}</td>
+              <td className="py-2 px-4 border-b border-gray-200">{song.artist}</td>
+              <td className="py-2 px-4 border-b border-gray-200">{song.genre}</td>
               <td className="py-2 px-4 border-b border-gray-200">
                 <button
                   onClick={() => navigate(`/edit/${song._id}`)}

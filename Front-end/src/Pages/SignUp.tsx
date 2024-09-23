@@ -11,7 +11,6 @@ interface SignUpFormInputs {
   email: string;
   password: string;
 }
-
 const SignUp: React.FC = () => {
   const {
     register,
@@ -26,6 +25,7 @@ const SignUp: React.FC = () => {
 
   const handleSignUp: SubmitHandler<SignUpFormInputs> = (data) => {
     dispatch(registerStart(data));
+    navigate("/login")
   };
 
   useEffect(() => {
@@ -33,7 +33,6 @@ const SignUp: React.FC = () => {
       navigate("/login");
     }
   }, [isAuthenticated, navigate]);
-
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100">
       <form

@@ -54,7 +54,7 @@ export const getAlbumDetailController = async (req: Request, res: Response) => {
   let albumId = req.params.id;
   let album;
   try {
-    album = await Album.findById(albumId);
+    album = await Album.findById(albumId).populate("songs");
     if (!album) {
       res.status(500).json({ message: "album not found" });
     }

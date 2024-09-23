@@ -26,6 +26,7 @@ const Artists: React.FC = () => {
       <table className="min-w-full table-auto bg-white border border-gray-200">
         <thead>
           <tr>
+            <th className="py-2 px-4 border-b text-left">#</th>
             <th className="py-2 px-4 border-b text-left">Artist</th>
             <th className="py-2 px-4 border-b text-left">Number of Albums</th>
             <th className="py-2 px-4 border-b text-left">Number of Songs</th>
@@ -34,6 +35,7 @@ const Artists: React.FC = () => {
         <tbody>
           {artists.map((artist, index) => (
             <tr key={index} className="hover:bg-gray-100">
+              <td className="py-2 px-4 border-b">{index + 1}</td>
               <td className="py-2 px-4 border-b">{artist.artist}</td>
               <td className="py-2 px-4 border-b">{artist.numberOfAlbums}</td>
               <td className="py-2 px-4 border-b">{artist.numberOfSongs}</td>
