@@ -1,4 +1,5 @@
-Music App
+# Music App
+
 A full-stack music application built with the MERN stack and TypeScript. This project demonstrates the use of React, Redux Toolkit, Redux Saga, and Tailwind CSS for the front-end, and Node.js, Express.js, and MongoDB for the back-end.
 
 Front-end:
