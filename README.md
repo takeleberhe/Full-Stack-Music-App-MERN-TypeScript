@@ -45,7 +45,7 @@ Install dependencies:npm install
 
 Start the development server:npm run dev
 
-Usage
+#Usage
 
 Open your browser and navigate to http://localhost:5173/ to access the front-end.
 
