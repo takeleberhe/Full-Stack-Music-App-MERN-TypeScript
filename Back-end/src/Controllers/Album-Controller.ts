@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import Album from "../Model/Album";
 import path from "path";
+import Song from "../Model/Songs";
 interface MulterRequest extends Request {
   files?: {
     [fieldname: string]: Express.Multer.File[];
   };
 }
-
 // Create Album Controller
 export const addAlbumController = async (req: MulterRequest, res: Response) => {
   try {
@@ -31,7 +31,6 @@ export const addAlbumController = async (req: MulterRequest, res: Response) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
-
 // getAllAlbums
 export const getAlbumController = async (req: Request, res: Response) => {
   try {
@@ -48,7 +47,6 @@ export const getAlbumController = async (req: Request, res: Response) => {
     return res.status(500).send(error.message);
   }
 };
-
 /* Get Album Detail Controller */
 export const getAlbumDetailController = async (req: Request, res: Response) => {
   let albumId = req.params.id;
@@ -63,7 +61,6 @@ export const getAlbumDetailController = async (req: Request, res: Response) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
-
 //update Album Controller
 export const updateAlbumController = async (
   req: MulterRequest,
@@ -85,7 +82,6 @@ export const updateAlbumController = async (
   }
   return res.status(200).json({ album });
 };
-
 //delete Album Controller
 export const deleteAlbumController = async (
   req: MulterRequest,

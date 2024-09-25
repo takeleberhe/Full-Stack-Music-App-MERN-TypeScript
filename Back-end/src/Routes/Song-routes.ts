@@ -11,6 +11,8 @@ import {
   getAllGenres
 } from "../Controllers/Song-Controller";
 import upload from "../Middlewares/uploadMiddleware";
+import { validateData } from "../Middlewares/validationMiddleware";
+import { SongSchema } from "../Schemas/songSchema";
 const songRouter = Router();
 // route api
 songRouter.get("/songs", getAllSongs);

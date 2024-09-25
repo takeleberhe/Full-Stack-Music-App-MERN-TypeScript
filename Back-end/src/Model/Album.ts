@@ -5,7 +5,7 @@ interface IAlbum extends Document {
   artist: string;
   songCount: number;
   songs: mongoose.Types.ObjectId[];
-  image: string; // Added image field
+  image: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -16,7 +16,7 @@ const AlbumSchema: Schema = new Schema(
     artist: { type: String, required: true },
     songCount: { type: Number },
     songs: [{ type: mongoose.Types.ObjectId, ref: "Song" }],
-    image: { type: String, required: false }, // Added image field
+    image: { type: String, required: false },
   },
   { timestamps: true }
 );
