@@ -9,21 +9,25 @@ interface MulterRequest extends Request {
     [fieldname: string]: Express.Multer.File[];
   };
 }
-//add song controller which updates both song and album collection
+
+// addSong Controller
 export const addSong = async (
   req: MulterRequest,
   res: Response
 ): Promise<Response> => {
   try {
-    const { title, artist, genre, albumId } = req.body;
+    const { title, artist, genre,albumId } = req.body;
+    // Validate album ID
     if (!mongoose.Types.ObjectId.isValid(albumId)) {
       return res.status(400).json({ message: "Invalid album ID" });
     }
+    // Validate video file
     const video = req.files?.["video"]?.[0];
     if (!video) {
       return res.status(400).json({ message: "Video file is required" });
     }
     const videoPath = video.path;
+    // Create new song
     const newSong = new Song({
       title,
       artist,
@@ -40,11 +44,14 @@ export const addSong = async (
     }
     album.songs.push(newSong._id as mongoose.Types.ObjectId);
     await album.save();
+
     return res.status(201).json(newSong);
   } catch (error: any) {
+    console.error("Error adding song:", error);
     return res.status(500).json({ message: "Internal Server error", error });
   }
 };
+
 /*get All Songs*/
 export const getAllSongs = async (req: Request, res: Response) => {
   let allSongs;
@@ -58,6 +65,7 @@ export const getAllSongs = async (req: Request, res: Response) => {
   }
   return res.status(200).json({ allSongs });
 };
+
 /* get single song by id */
 export const getSongById = async (req: Request, res: Response) => {
   let id = req.params.id;
@@ -72,6 +80,7 @@ export const getSongById = async (req: Request, res: Response) => {
   }
   return res.status(200).json({ song });
 };
+
 /* Delete song */
 export const deleteSong = async (req: Request, res: Response) => {
   const id = req.params.id;
@@ -83,6 +92,7 @@ export const deleteSong = async (req: Request, res: Response) => {
   }
   return res.status(200).json({ message: "song deleted successfully" });
 };
+
 // new update song
 export const updateSong = async (
   req: Request,
@@ -146,19 +156,19 @@ export const getAllArtists = async (req: Request, res: Response) => {
   }
 };
 
-
- // Total Number of Genres
- export const getAllGenres = async (req: Request, res: Response) => {
+// Total Number of Genres
+export const getAllGenres = async (req: Request, res: Response) => {
   try {
     const genres = await Song.distinct("genre");
     const totalGenres = genres.length;
     res.json({
       totalGenres,
     });
-  } catch (error:any) {
+  } catch (error: any) {
     console.log(error.mesaage);
   }
-}
+};
+
 // number of songs in each genre
 export const numberOfSongsPerGenre = async (req: Request, res: Response) => {
   try {
@@ -168,11 +178,12 @@ export const numberOfSongsPerGenre = async (req: Request, res: Response) => {
     if (genres) {
       return res.status(200).json(genres);
     }
-    return  res.json(genres);
+    return res.json(genres);
   } catch (error: any) {
     return res.status(500).json({ message: error.message });
   }
 };
+
 //ge total number of songs,artists,albums,genres
 export const totalController = async (req: Request, res: Response) => {
   try {
@@ -195,4 +206,3 @@ export const totalController = async (req: Request, res: Response) => {
     res.status(500).json({ message: error.message });
   }
 };
-

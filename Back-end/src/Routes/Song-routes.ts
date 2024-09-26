@@ -20,6 +20,7 @@ songRouter.get("/song/:id", getSongById);
 songRouter.post(
   "/songs",
   upload.fields([{ name: "video", maxCount: 1 }]),
+  validateData(SongSchema),
   addSong as RequestHandler
 );
 songRouter.patch("/song/:id", updateSong);
