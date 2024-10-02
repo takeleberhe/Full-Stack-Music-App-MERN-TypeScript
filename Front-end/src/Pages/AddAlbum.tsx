@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { addAlbumStart, resetAddAlbumSuccess } from "../Redux/Features/AlbumSlice";
+import {
+  addAlbumStart,
+  resetAddAlbumSuccess,
+} from "../Redux/Features/AlbumSlice";
 import { RootState } from "../Redux/store";
 
 interface AlbumForm {
@@ -11,8 +14,14 @@ interface AlbumForm {
 }
 
 const AddAlbum: React.FC = () => {
-  const addAlbumSuccess = useSelector((state: RootState) => state.album.addAlbumSuccess);
-  const [form, setForm] = useState<AlbumForm>({ title: "", artist: "", image: null });
+  const addAlbumSuccess = useSelector(
+    (state: RootState) => state.album.addAlbumSuccess
+  );
+  const [form, setForm] = useState<AlbumForm>({
+    title: "",
+    artist: "",
+    image: null,
+  });
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -36,7 +45,6 @@ const AddAlbum: React.FC = () => {
     dispatch(addAlbumStart(formData));
   };
 
-  // Navigate to albums page and reset addAlbumSuccess state on successful album addition
   useEffect(() => {
     if (addAlbumSuccess) {
       navigate("/albums");

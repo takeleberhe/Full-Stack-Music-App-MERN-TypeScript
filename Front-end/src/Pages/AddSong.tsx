@@ -23,6 +23,22 @@ const AddSong: React.FC = () => {
     dispatch(getAlbumStart());
   }, [dispatch]);
 
+  useEffect(() => {
+    if (addSongSuccess) {
+      navigate("/songs");
+    }
+  }, [addSongSuccess, navigate]);
+
+  // Reset state when component mounts
+  useEffect(() => {
+    setTitle("");
+    setArtist("");
+    setGenre("");
+    setFile(null);
+    setAlbumId(null);
+    navigate("/addsong");
+  }, [navigate]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (title && artist && file && albumId !== null) {
@@ -35,12 +51,6 @@ const AddSong: React.FC = () => {
       dispatch(addSongStart(formData));
     }
   };
-  /* route to songs page after song added successfully*/
-  useEffect(() => {
-    if (addSongSuccess) {
-      navigate("/songs");
-    }
-  }, [addSongSuccess, navigate]);
 
   return (
     <form onSubmit={handleSubmit} className="p-4 space-y-4">

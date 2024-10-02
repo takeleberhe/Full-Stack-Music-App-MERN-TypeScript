@@ -16,8 +16,9 @@ const PageRouter = () => {
     <Routes>
       {/* Song Routes */}
       <Route path="/" element={<Albums />} />
-      <Route path="/albums" element={<Albums />} />
+      <Route path="/albums" element={<Albums  key={Date.now()} />} />
       <Route path="/addalbum" element={<AddAlbum />} />
+     {/*  <Route path="/addsong" element={<AddSong />} /> */}
       <Route path="/addsong" element={<AddSong />} />
       <Route path="/songs" element={<Songs />} />
       <Route path="/artists" element={<Artists />} />
