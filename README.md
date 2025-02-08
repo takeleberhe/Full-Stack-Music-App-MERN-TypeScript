@@ -23,13 +23,13 @@ A feature-rich full-stack music application built with the **MERN** stack and **
 ## 📥 Clone the Repository
 
 ```bash
+
 git clone https://github.com/takeleberhe/Full-Stack-Music-App-MERN-TypeScript.git
 cd Full-Stack-Music-App-MERN-TypeScript
 🎯 Running the Application
 🖥️ Start the Front-End
 bash
-Copy
-Edit
+
 cd Front-end
 npm install      # Install dependencies
 npm run dev      # Start development server
@@ -37,8 +37,7 @@ The front-end will be available at: http://localhost:5173/
 
 ⚙️ Start the Back-End
 bash
-Copy
-Edit
+
 cd ../Back-end
 npm install      # Install dependencies
 npm run dev      # Start back-end server
